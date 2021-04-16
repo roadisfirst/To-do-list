@@ -1,0 +1,14 @@
+.Btn {
+    padding: 3px;
+    border: 2px solid transparent;
+    background-color: #f2a104;
+}
+
+.Toggle-btn,
+.Btn:active,
+.Btn:focus,
+[aria-pressed="true"] {
+    border: 2px solid #000;
+    background-color: #72a2c0;
+}
+

@@ -1,37 +1,37 @@
 .Task {
-    width: 60%;
-    border: 1px solid grey;
-    padding: 5px;
-    margin: 10px auto;
-    border-radius: 4px;
-    box-shadow: 0 2px 3px #ccc;
-    text-align: center;
-    vertical-align: center;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+
+div.Task:nth-child(even) {
+  background-color: #b5cde028;
+}
+
+.TaskValue {
+  padding: 5px;
 }
 
 @media (min-width: 500px) {
-    .Task {
-        width: 450px;
+  .Task {
+    width: 450px;
     }
 }
 
 .removeOutline {
-    color:'#696969';
-    height: 20px;
-    width: 20px;
-    vertical-align: middle;
-    cursor: pointer;
-    /* transition: transform .8s ease-in-out; */
+  color:'#696969';
+  height: 20px;
+  width: 20px;
+  vertical-align: middle;
+  cursor: pointer;
 }
 
 .removeOutline :hover {
-    color: red;
-    -webkit-animation: rotate-in-center 1s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
-    animation: rotate-in-center 1s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
-    /* transform:rotate(90deg); */
-    /* transform:scale(2); */
+  color: red;
+  -webkit-animation: rotate-in-center 1s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+  animation: rotate-in-center 1s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
 }
 
 .Task.isDone{
-    text-decoration: line-through;
+  text-decoration: line-through;
 }

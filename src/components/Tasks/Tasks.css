@@ -1,25 +1,38 @@
 .AllTasksContainer {
-    width: 80%;
-    margin: 10px auto;
-    border: 1px solid grey;
-    border-radius: 4px;
-    box-shadow: 0 2px 3px #ccc;
-    text-align: center;
-    vertical-align: center;
-  }
+  width: 80%;
+  margin: 10px auto;
+  border: 1px solid grey;
+  border-radius: 4px;
+  box-shadow: 0 2px 3px #ccc;
+  text-align: center;
+  vertical-align: middle;
+}
 
-  @media (min-width: 500px) {
-    .AllTasksContainer {
-        width: 490px;
-    }
+.AllTasksContainerInfo {
+  background-color: #a3bacc4d;
+}
+
+.AllTasksContainerInfo p {
+  font-size: small;
+  margin: auto;
+  padding: 10px;
+}
+
+@media (min-width: 500px) {
+  .AllTasksContainer {
+      width: 470px;
+  }
 }
 
 .trashOutline {
-  color:'#696969';
-  height: 20px;
-  width: 20px;
+  color: #000;
   vertical-align: middle;
   cursor: pointer;
+}
+
+.hnNHnH.trashOutline svg {
+  height: 18px;
+  width: 18px;
 }
 
 .trashOutline :hover {

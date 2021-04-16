@@ -1,26 +1,21 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import { RemoveOutline } from 'react-ionicons';
-
-
+import './Task.css';
 
 const task = (props) => {
-    let taskClassName = "Task";
-    if (props.done) {
-        taskClassName = "Task isDone";
-    }
+    const taskClassName = (props.done) ? "Task isDone" : "Task";
+    const checking = props.done;
     return (
         <div className={taskClassName}>
-            <p onChange={props.changed}>
-                <input type="checkbox" value={true} id="markdone"/>
-                Task: {props.value}
-                    <RemoveOutline className="removeOutline"
-                        onClick={props.clicked} /> 
-            </p>
+            <span>
+                <input type="checkbox" value={props.done} checked={checking} id="markdone" onChange={props.changed}/>
+                <span className="TaskValue">{props.value}</span>
+            </span>
+            <RemoveOutline className="removeOutline"
+                onClick={props.clicked} />
         </div>
     )
-
 };
 
 export default task;

@@ -9,3 +9,10 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.App h1{
+  background-color: #f2a104;
+  margin: auto;
+  padding: 30px 10px 10px;
+  box-shadow: 0 2px 3px #ccc;
+}
