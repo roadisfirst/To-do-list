@@ -17,9 +17,9 @@ const FILTER_NAMES = Object.keys(FILTER_MAP);
 const tasks = (props) => {
     const undoneTasksCount = props.tasks.filter(task => !task.isDone).length;
 
-    const doneTasksIndexes = [];
+    const doneTasksIds = [];
     props.tasks.map((task, index) => {
-        task.isDone && doneTasksIndexes.push(index);
+        task.isDone && doneTasksIds.push(task.id);
     });
     
     const filterList = FILTER_NAMES.map(name => (
@@ -33,13 +33,19 @@ const tasks = (props) => {
     return (
         <div className="AllTasksContainer">
             {props.tasks.filter(FILTER_MAP[props.filter])
+            .sort(props.orderSort)
             .map((task, index) => {
                 return <Task
-                  clicked={() => props.clicked(index)}
-                  changed={(event) => props.changed(event, task.id)} 
-                  value={task.value}
-                  key={task.id}
-                  done={task.isDone} />
+                    clicked={() => props.clicked(task.id)}
+                    changed={(event) => props.changed(event, task.id)}
+                    value={task.value}
+                    key={task.id}
+                    done={task.isDone}
+                    onDragStart={(event) => props.onDragStart(event, task)}
+                    onDragLeave={(event) => props.onDragLeave(event)}
+                    onDragEnd={(event) => props.onDragEnd(event)}
+                    onDragOver={(event) => props.onDragOver(event)}
+                    onDrop={(event) => props.onDrop(event, task)} />
               }).reverse() }
             <div className="AllTasksContainerInfo">
                 <p>Количество активных дел <strong>{undoneTasksCount}</strong></p>
@@ -47,7 +53,7 @@ const tasks = (props) => {
                 <p>Удалить все завершенные дела
                     <TrashOutline
                         className="trashOutline"
-                        onClick={() => {props.clicked(doneTasksIndexes)}} />
+                        onClick={() => {props.clicked(doneTasksIds)}} />
                 </p>
             </div>
         </div>

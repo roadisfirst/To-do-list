@@ -12,7 +12,9 @@ class App extends Component {
     state = {
       tasks: [],
       input: '',
-      filter: 'Все'
+      filter: 'Все',
+      total: 0,
+      currentTask: null
     }
 
     changeHandler = (event) => {
@@ -20,27 +22,39 @@ class App extends Component {
     }
 
     addTaskHandler = () => {
+      let total = this.state.total;
       if (this.state.input !== '') {
         const newTask = {
           id: Date.now() + Math.floor(Math.random() * 100),
           value: this.state.input,
-          isDone: false
+          isDone: false,
+          order: ++total
         }
         const updatedTasks = [...this.state.tasks];
         updatedTasks.push(newTask);
-        this.setState({tasks: updatedTasks, input:''});}
+        this.setState({tasks: updatedTasks, input:'', total: newTask.order});
       }
+    }
 
-    deleteTaskHandler = (taskIndex) => {
+    deleteTaskHandler = (taskId) => {
       let updatedTasks = [...this.state.tasks];
-      if (Array.isArray(taskIndex)){
-      updatedTasks = updatedTasks.filter((e, i) => taskIndex.indexOf(i) < 0);
-
-      } else {
-        updatedTasks.splice(taskIndex, 1);
+      if (!Array.isArray(taskId)){
+        taskId = [taskId];
       }
-      
-      this.setState({tasks: updatedTasks});
+      let delTasksOrder = updatedTasks.filter(elem => taskId.indexOf(elem.id) >= 0).map(elem => elem.order);
+      updatedTasks = updatedTasks.filter(elem => taskId.indexOf(elem.id) < 0);
+      let newTotal = updatedTasks.length;
+       for (let elem of updatedTasks){
+        let dec = 0;
+        let order = elem.order;
+        for(let i = 0; i < delTasksOrder.length; i++){
+          if( delTasksOrder[i] < order){
+            dec++;
+          }
+        }
+        elem.order = order - dec;
+      }
+      this.setState({tasks: updatedTasks, total: newTotal});
     }
 
     keyDownHandler = (event) => {
@@ -66,6 +80,45 @@ class App extends Component {
       this.setState({filter: filterName});
     }
 
+    dragStartHandler = (event, task) => {
+      this.setState({currentTask: task});
+    }
+
+    dragEndHandler = (event) => {
+      event.target.closest('div.Task').classList.remove("Selected");
+    }
+
+    dragOverHandler = (event) => {
+      event.preventDefault();
+      event.target.closest('div.Task').classList.add("Selected");
+    }
+
+    dropHandler = (event, task) => {
+      event.preventDefault();
+      let taskDiv = event.target.closest('div.Task');
+      if(!taskDiv) return;
+      let taskList = [...this.state.tasks];
+      taskList = taskList.map(t => {
+        if (t.id === task.id){
+          t = {...t, order: this.state.currentTask.order};
+        }
+        if (t.id === this.state.currentTask.id){
+          t = {...t, order: task.order};
+        }
+        return t;
+      })
+      this.setState({tasks: taskList}); 
+      taskDiv.classList.remove("Selected");
+    }
+
+    orderSort = (a, b) => {
+      if (a.order > b.order) {
+        return 1;
+      } else {
+        return -1;
+      }
+    }
+
     render () {
 
       let tasks = null;
@@ -75,7 +128,13 @@ class App extends Component {
                 clicked={this.deleteTaskHandler}
                 changed={this.isDoneHandler}
                 setFilter={this.filterSetter}
-                filter={this.state.filter} />
+                filter={this.state.filter}
+                onDragStart={this.dragStartHandler}
+                onDragLeave={this.dragEndHandler}
+                onDragEnd={this.dragEndHandler}
+                onDragOver={this.dragOverHandler}
+                onDrop={this.dropHandler} 
+                orderSort={this.orderSort} />
       }
 
       return (

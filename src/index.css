@@ -10,6 +10,11 @@ code {
     monospace;
 }
 
+.App {
+  width: 100vw;
+  height: 100vh;;
+}
+
 .App h1{
   background-color: #f2a104;
   margin: auto;
