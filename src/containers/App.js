@@ -44,16 +44,22 @@ class App extends Component {
       let delTasksOrder = updatedTasks.filter(elem => taskId.indexOf(elem.id) >= 0).map(elem => elem.order);
       updatedTasks = updatedTasks.filter(elem => taskId.indexOf(elem.id) < 0);
       let newTotal = updatedTasks.length;
-       for (let elem of updatedTasks){
+      updatedTasks = updatedTasks.map(elem => {
         let dec = 0;
         let order = elem.order;
+        let newOrder;
         for(let i = 0; i < delTasksOrder.length; i++){
           if( delTasksOrder[i] < order){
             dec++;
           }
+          newOrder = order - dec;
+        elem = {
+          ...elem,
+          order: newOrder
         }
-        elem.order = order - dec;
-      }
+        return elem;
+        }
+       });
       this.setState({tasks: updatedTasks, total: newTotal});
     }
 
