@@ -53,11 +53,10 @@ class App extends Component {
             dec++;
           }
           newOrder = order - dec;
-        elem = {
+        return {
           ...elem,
           order: newOrder
         }
-        return elem;
         }
        });
       this.setState({tasks: updatedTasks, total: newTotal});
